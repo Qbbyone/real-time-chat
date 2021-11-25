@@ -1,28 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSocket } from "../../hooks/socket.hook";
-import { useHistory } from "react-router-dom";
 
-const Welcome = () => {
+const Welcome = ({ roomId }) => {
   const [username, setUsername] = useState("");
   const [roomName, setRoomName] = useState("");
-  //const [roomId, setRoomId] = useState("");
 
-  const history = useHistory();
-
-  const { chatData, createRoom } = useSocket();
-
-  console.log("chatData in Welcome", chatData);
-
-
-  useEffect(() => {
-    if (chatData) {
-      history.replace(`/chat/?roomId=${chatData.roomId}`);
-    }
-  }, [chatData]);
+  const { joinRoom, createRoom } = useSocket();
 
   const joinButtonClick = () => {
-    if (username.length !== 0 && roomName !== 0) {
-      createRoom(username, roomName);
+    if (roomId) {
+      if (username.length !== 0) joinRoom(username, roomId);
+    } else {
+      if (username.length !== 0 && roomName !== 0)
+        createRoom(username, roomName);
     }
   };
 
@@ -34,12 +24,14 @@ const Welcome = () => {
           setUsername(e.target.value);
         }}
       />
-      <input
-        placeholder="room name"
-        onChange={(e) => {
-          setRoomName(e.target.value);
-        }}
-      />
+      {!roomId && (
+        <input
+          placeholder="room name"
+          onChange={(e) => {
+            setRoomName(e.target.value);
+          }}
+        />
+      )}
       <button onClick={joinButtonClick}>Join</button>
     </div>
   );

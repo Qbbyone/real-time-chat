@@ -43,21 +43,22 @@ io.on("connection", (socket) => {
     chatRoomsData.get(roomId).set("roomName", roomName);
     chatRoomsData.get(roomId).get("users").set(userId, username);
 
-    console.log("chatRoomsData", chatRoomsData);
-
     socket.join(roomId);
-    sendChatData(socket, roomId);
-
-    console.log("userId in createRoom", userId)
-
     socket.emit("userId", userId);
+    sendChatData(socket, roomId);
   });
 
-  // socket.on("joinChat", ({ username, roomName }) => {
-  //   socket.join(roomName);
-  //   const user = { username, roomName };
-  //   sendChatData(socket, roomName, user);
-  // });
+  socket.on("joinRoom", ({ username, roomId }) => {
+    if(chatRoomsData.has(roomId)) {
+      socket.join(roomId)
+      const userId = nanoid(8)
+      chatRoomsData.get(roomId).get("users").set(userId, username);
+      socket.emit("userId", userId);
+      sendChatData(socket, roomId)
+    } else {
+      console.log('room is not found');
+    }
+  });
 
   socket.on("reconnect", (userId) => {
     chatRoomsData.forEach((value, key) => {
