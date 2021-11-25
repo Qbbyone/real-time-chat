@@ -1,10 +1,9 @@
 import React from 'react';
 
-const Header = () => {
-
+const Header = ({chatData}) => {
   return (
     <div>
-      <div>Room id: </div>
+      <div>Room name: {chatData.roomName} </div>
     </div>
   );
 };

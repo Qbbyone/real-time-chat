@@ -21,7 +21,10 @@ export const useSocket = () => {
     })
   }, []);
 
-  
+  const joinRoom = (username, roomId) => {
+    socket.emit("joinRoom", {username, roomId})
+  }
+
   const createRoom = (username, roomName) => {
     socket.emit("createRoom", { username, roomName });
   };
@@ -32,6 +35,7 @@ export const useSocket = () => {
 
   return {
     chatData,
+    joinRoom,
     createRoom,
     reconnectToRoom
   };

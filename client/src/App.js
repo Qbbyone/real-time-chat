@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,9 +10,10 @@ import Chat from "./pages/Chat/Chat";
 import Welcome from "./pages/Welcome/Welcome";
 
 function App() {
+  const [roomId, setRoomId] = useState("");
+  
   const { chatData } = useSocket();
-  console.log("chatData in App", chatData);
-
+  
   return (
     <Router>
       <Switch>
@@ -21,13 +22,15 @@ function App() {
           exact
           render={() => {
             if (chatData) {
-              return <Redirect to="/chat" />;
+              const urlChat = `/chat/?roomId=${chatData.roomId}`;
+              return <Redirect to={urlChat} />;
             }
-            return <Welcome />;
+            return <Welcome roomId={roomId} />;
           }}
         />
+
         <Route path="/chat">
-          <Chat chatData={chatData} />
+          <Chat setRoomId={setRoomId} />
         </Route>
       </Switch>
     </Router>
