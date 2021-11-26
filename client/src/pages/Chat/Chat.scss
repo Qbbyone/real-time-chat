@@ -1,0 +1,27 @@
+.chat {
+  @extend %wrapper;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  height: 80%;
+  background-color: #fff;
+  opacity: 0.8;
+  border-radius: 1rem;
+}
+
+@media screen and (max-width: 560px), screen and (max-height: 620px) {
+  .chat-container {
+    min-width: 100vw;
+    min-height: 100vh;
+    border-radius: 0rem;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .chat-container {
+    width: 45%;
+  }
+}

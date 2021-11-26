@@ -5,15 +5,13 @@ import MessageItem from '../MessageItem/MessageItem';
 const Messanger = () => {
 
   let messages = []
-  let name = ''
 
-  
   return (
     <ScrollToBottom className="messenger">
       {messages.map((message, index) => {
         return (
           <div key={index}>
-            <MessageItem message={message} name={name} />
+            <MessageItem />
           </div>
         );
       })}

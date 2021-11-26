@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Logo from "../../components/Logo/Logo";
 import { useSocket } from "../../hooks/socket.hook";
 
 const Welcome = ({ roomId }) => {
@@ -17,22 +18,39 @@ const Welcome = ({ roomId }) => {
   };
 
   return (
-    <div>
-      <input
-        placeholder="username"
-        onChange={(e) => {
-          setUsername(e.target.value);
-        }}
-      />
-      {!roomId && (
-        <input
-          placeholder="room name"
-          onChange={(e) => {
-            setRoomName(e.target.value);
-          }}
-        />
-      )}
-      <button onClick={joinButtonClick}>Join</button>
+    <div className="join">
+      <div className="join-container">
+        <div className="join-logo">
+          <Logo />
+        </div>
+        <div className="join-heading">
+          <h1>Sign in</h1>
+          {/* <span>create new chat room</span> */}
+        </div>
+        <div className="join-form">
+          <input
+            className="join-input"
+            placeholder="Enter your name"
+            type="text"
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+          />
+          {!roomId && (
+            <input
+              className="join-input"
+              placeholder="Room name"
+              type="text"
+              onChange={(e) => {
+                setRoomName(e.target.value);
+              }}
+            />
+          )}
+          <button className="join-button" onClick={joinButtonClick}>
+            {roomId ? "Join Chat" : "Create Room"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

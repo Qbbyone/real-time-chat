@@ -6,6 +6,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { useSocket } from "./hooks/socket.hook";
+import "./styles/App.scss";
 import Chat from "./pages/Chat/Chat";
 import Welcome from "./pages/Welcome/Welcome";
 
