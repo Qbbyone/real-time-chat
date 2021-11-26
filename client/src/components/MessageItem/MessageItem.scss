@@ -1,0 +1,63 @@
+.admin-message {
+  display: flex;
+  justify-content: center;
+  margin: .5rem 0;
+  & p {
+    font-weight: 600;
+    color: rgb(87, 86, 86);
+    text-align: center;
+  }
+}
+
+.user-message {
+  display: flex;
+  flex-direction: column;
+  margin-top: .5rem;
+}
+
+.message-body {
+  padding: 0.2rem 1rem;
+  color: white;
+  border-radius: 1rem;
+  display: inline-block;
+  max-width: 80%;
+}
+
+.message-info {
+  display: flex;
+  padding: .5rem;
+  & span {
+    font-size: 0.95rem;
+    letter-spacing: 0.2px;
+    color: rgb(87, 86, 86);
+  } .message-info-name {
+    margin-right: 0.4rem;
+  }
+}
+
+.message-text {
+  letter-spacing: 0.2px;
+  line-height: 1.5rem;
+  word-wrap: break-word;
+}
+
+.current-user-bg {
+  background-color: #2979ff;
+}
+
+.other-users-bg {
+  background-color: rgb(100, 100, 100);
+}
+
+.right {
+  margin-left: auto;
+  padding: 0 5%;
+}
+
+.text-right {
+  justify-content: flex-end;
+}
+
+.left {
+  margin-right: auto;
+}

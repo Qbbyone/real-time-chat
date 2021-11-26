@@ -1,0 +1,36 @@
+@import "../pages/Welcome/Welcome.scss";
+@import "../pages/Chat/Chat.scss";
+@import "../components/Logo/Logo.scss";
+@import "../components/Header/Header.scss";
+@import "../components/Messanger/Messanger.scss";
+@import "../components/MessageItem/MessageItem.scss";
+@import "../components/TypeInput/TypeInput.scss";
+
+$blue_background: rgb(98, 98, 223);
+
+%wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: $blue_background;
+}
+
+%transparent-button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 0.5rem;
+}
+
+html,
+body {
+  font-family: "Roboto", sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}

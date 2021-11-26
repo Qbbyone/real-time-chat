@@ -1,0 +1,106 @@
+.header {
+  /* flex: 1; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  border-bottom: 2px solid #d3d3d3;
+}
+
+.header-room-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem;
+  & .room-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  & .room-members {
+    margin-top: 0;
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+    color: #636262;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.header-dropdown {
+  z-index: 2;
+  position: relative;
+  padding: 0.5rem;
+  & .dropdown-button {
+    display: block;
+    cursor: pointer;
+  }
+  & .dropdown-menu {
+    list-style: none;
+    position: absolute;
+    border: 2px solid #d3d3d3;
+    background-color: #fff;
+    top: 2.4rem;
+    right: 0;
+    width: 35vw;
+    max-width: 35vw;
+    padding: 0.7rem 0 0.6rem 0;
+    display: block;
+    border-radius: 5px;
+    display: none; /* REMOVE dropdown-menu  */
+    &:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      background: #ffffff;
+      border-top: 2px solid #d3d3d3;
+      border-left: 2px solid #d3d3d3;
+      right: 0.8rem;
+      top: -9px;
+      transform: rotate(45deg);
+    }
+  }
+  & .dropdown-checkbox {
+    display: none;
+  }
+}
+
+[id^="dropdown"]:checked + .dropdown-menu {
+  display: block;
+}
+
+.menu-item {
+  padding: 1rem;
+  &:nth-last-child(-n + 1) {
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  &:hover {
+    background-color: rgb(98, 98, 223);
+    & .menu-link {
+      color: #ffffff;
+    }
+  }
+  & .menu-link {
+    color: black;
+    font-size: 1.1rem;
+    text-decoration: none;
+    display: block;
+    & .fa-icon {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+@media screen and (max-width: 560px), screen and (max-height: 620px) {
+  .dropdown-menu {
+    min-width: calc(100vw - 2rem);
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .dropdown-menu {
+    max-width: 15vw !important;
+  }
+}

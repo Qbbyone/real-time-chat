@@ -5,9 +5,9 @@ import TypeInput from "../../components/TypeInput/TypeInput";
 import { useSocket } from "../../hooks/socket.hook";
 import { useHistory } from "react-router-dom";
 
-const Chat = ({setRoomId}) => {
+const Chat = ({ setRoomId }) => {
   const history = useHistory();
-  
+
   const { chatData, reconnectToRoom } = useSocket();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const Chat = ({setRoomId}) => {
 
     // reconnect to room if the page is refreshed
     if (sessionStorage.getItem("userId") && !chatData) {
-      console.log("chat userId", sessionStorage.getItem("userId"))
+      console.log("chat userId", sessionStorage.getItem("userId"));
       reconnectToRoom(sessionStorage.getItem("userId"));
     } else if (!chatData) {
       history.push("/");
@@ -27,10 +27,12 @@ const Chat = ({setRoomId}) => {
   }, []);
 
   return chatData ? (
-    <div>
-      <Header chatData={chatData} />
-      <Messanger />
-      <TypeInput />
+    <div className="chat">
+      <div className="chat-container">
+        <Header chatData={chatData} />
+        <Messanger />
+        <TypeInput />
+      </div>
     </div>
   ) : (
     <div>Loading...</div>
