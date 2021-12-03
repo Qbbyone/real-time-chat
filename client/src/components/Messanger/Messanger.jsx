@@ -2,9 +2,10 @@ import React from 'react';
 import ScrollToBottom from "react-scroll-to-bottom";
 import MessageItem from '../MessageItem/MessageItem';
 
-const Messanger = () => {
+const Messanger = ({chatData}) => {
+  //console.log("chatData in Messanger", chatData.messages);
 
-  let messages = []
+  const messages =  chatData.messages
 
   return (
     <ScrollToBottom className="messenger">

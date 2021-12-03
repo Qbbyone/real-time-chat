@@ -22,16 +22,17 @@ function App() {
           path="/"
           exact
           render={() => {
+            console.log("App", chatData)
             if (chatData) {
               const urlChat = `/chat/?roomId=${chatData.roomId}`;
               return <Redirect to={urlChat} />;
             }
+
             return <Welcome roomId={roomId} />;
           }}
         />
-
         <Route path="/chat">
-          <Chat setRoomId={setRoomId} />
+          <Chat chatData={chatData} setRoomId={setRoomId} />
         </Route>
       </Switch>
     </Router>
