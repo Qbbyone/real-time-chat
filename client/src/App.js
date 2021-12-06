@@ -12,26 +12,20 @@ import Welcome from "./pages/Welcome/Welcome";
 
 function App() {
   const [roomId, setRoomId] = useState("");
-  
+
   const { chatData } = useSocket();
-  
+
   return (
     <Router>
       <Switch>
-        <Route
-          path="/"
-          exact
-          render={() => {
-            console.log("App", chatData)
-            if (chatData) {
-              const urlChat = `/chat/?roomId=${chatData.roomId}`;
-              return <Redirect to={urlChat} />;
-            }
-
-            return <Welcome roomId={roomId} />;
-          }}
-        />
-        <Route path="/chat">
+        <Route exact path="/">
+          {!!chatData ? (
+            <Redirect to={`/chat?roomId=${chatData.roomId}`} />
+          ) : (
+            <Welcome roomId={roomId} />
+          )}
+        </Route>
+        <Route path="/chat"> {/* path="/chat/:roomId" */}
           <Chat chatData={chatData} setRoomId={setRoomId} />
         </Route>
       </Switch>

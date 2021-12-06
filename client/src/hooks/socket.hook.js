@@ -44,14 +44,18 @@ export const useSocket = () => {
     socket.emit("disconnectUser", { userId, roomId });
   };
 
+  const clearChatData = () => {
+    setChatData(null)
+  }
+
   return {
     chatData,
-    setChatData,
     joinRoom,
     createRoom,
     reconnectToRoom,
     sendMessage,
     disconnectUser,
     userLeft,
+    clearChatData
   };
 };

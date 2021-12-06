@@ -33,7 +33,7 @@ const Chat = (props) => {
   return chatData ? (
     <div className="chat">
       <div className="chat-container">
-        <Header chatData={chatData} />
+        <Header chatData={chatData} setChatData={props.setChatData} />
         <Messanger chatData={chatData} />
         <TypeInput />
       </div>

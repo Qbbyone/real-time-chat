@@ -12,31 +12,18 @@ import {
 
 const Header = ({ chatData }) => {
   const [usernames, setUsernames] = useState(chatData.usernames);
-  const [exit, setExit] = useState(false);
 
-  const { setChatData, disconnectUser, userLeft } = useSocket();
+  const { disconnectUser, userLeft, clearChatData } = useSocket();
 
   const history = useHistory();
+
+  let usersInRoom = usernames.length;
 
   useEffect(() => {
     if (userLeft) {
       setUsernames((users) => users.splice(users.indexOf(userLeft), 1));
     }
   }, [userLeft]);
-
-  let usersInRoom = usernames.length;
-
-  // useEffect(() => {
-  //   console.log(chatData);
-  //   console.log(exit); //!false ahahhahahah
-  //   if (exit) {
-  //     setChatData(null);
-  //     setChatData((state) => {
-  //       console.log(state); // null
-  //       return state;
-  //     });
-  //   }
-  // }, [exit]);
 
   useEffect(() => {
     //!useEffect не вызывается
@@ -46,32 +33,15 @@ const Header = ({ chatData }) => {
     }
   }, [chatData]);
 
+  console.log("tut", chatData);
+
   // error redirect to chat
   const logoutButtonClick = () => {
     disconnectUser(sessionStorage.getItem("userId"), chatData.roomId);
     sessionStorage.removeItem("userId");
-    // setExit(true);
-    // console.log(chatData);
-    // history.push("/");
-    //! log после этой конструкции показывает chatData
-    // setChatData(null)
-    // setChatData((state) => {
-    //   console.log(state); // null
-    //   return state;
-    // });
-
-    //! callback не работает
-    // setChatData(null, () => {
-    //   console.log('callback', chatData)
-    // })
-    setChatData(null)
-    setTimeout(() => {
-      console.log("Functional:Count post update in setTimeout", chatData);
-    }, 1000);
-    console.log("2", chatData)
+    clearChatData();
+    console.log("2", chatData);
   };
-
-  
 
   return (
     <div className="header">

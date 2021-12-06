@@ -33,7 +33,7 @@ sendChatData = (socket, roomId) => {
 };
 
 io.on("connection", (socket) => {
-  console.log("connection--------------");
+  console.log("connection--------------", Date.now());
 
   socket.on("createRoom", ({ username, roomName }) => {
     const roomId = nanoid(10);
