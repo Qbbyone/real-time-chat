@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSocket } from "../../hooks/socket.hook";
-import { useHistory } from "react-router-dom";
 import Logo from "../Logo/Logo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,9 +12,7 @@ import {
 const Header = ({ chatData }) => {
   const [usernames, setUsernames] = useState(chatData.usernames);
 
-  const { disconnectUser, userLeft, clearChatData } = useSocket();
-
-  const history = useHistory();
+  const { disconnectUser, userLeft } = useSocket();
 
   let usersInRoom = usernames.length;
 
@@ -25,22 +22,9 @@ const Header = ({ chatData }) => {
     }
   }, [userLeft]);
 
-  useEffect(() => {
-    //!useEffect не вызывается
-    console.log("3", chatData);
-    if (!chatData) {
-      history.push("/");
-    }
-  }, [chatData]);
-
-  console.log("tut", chatData);
-
   // error redirect to chat
   const logoutButtonClick = () => {
     disconnectUser(sessionStorage.getItem("userId"), chatData.roomId);
-    sessionStorage.removeItem("userId");
-    clearChatData();
-    console.log("2", chatData);
   };
 
   return (
@@ -75,10 +59,10 @@ const Header = ({ chatData }) => {
           </li>
           {/* User logout */}
           <li className="menu-item">
-            <button className="menu-button" onClick={logoutButtonClick}>
+            <a href='/' className="menu-link" onClick={logoutButtonClick}>
               <FontAwesomeIcon icon={faSignOutAlt} className="fa-icon" />
               Log Out
-            </button>
+            </a>
           </li>
         </ul>
       </div>

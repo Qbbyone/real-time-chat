@@ -8,17 +8,17 @@ import { useHistory } from "react-router-dom";
 const Chat = (props) => {
   const history = useHistory();
 
-  const chatData = props.chatData;
+  const chatData = props.chatData
   let setRoomId = props.setRoomId;
 
   const { reconnectToRoom } = useSocket();
 
   useEffect(() => {
-    console.log("useEffect in chat");
+    console.log("useEffect in chat", chatData);
     // get roomId from url
-    const url = window.location.href;
-    if (url.includes("roomId=")) {
-      setRoomId(url.substring(url.indexOf("roomId=") + 7));
+    const url = window.location.href.split('/');
+    if (url.length === 5) {
+      setRoomId(url[4]);
     }
 
     // reconnect to room if the page is refreshed

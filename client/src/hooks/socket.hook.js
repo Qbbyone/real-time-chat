@@ -45,6 +45,7 @@ export const useSocket = () => {
   };
 
   const clearChatData = () => {
+    console.log("clearChatData");
     setChatData(null)
   }
 
