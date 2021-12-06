@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../../components/Logo/Logo";
 import { useSocket } from "../../hooks/socket.hook";
+import { useHistory } from "react-router-dom";
 
-const Welcome = ({ roomId }) => {
+const Welcome = (props) => {
+  const roomId = props.roomId;
+  const chatData = props.chatData
+  
   const [username, setUsername] = useState("");
   const [roomName, setRoomName] = useState("");
 
+  const history = useHistory();
+
   const { joinRoom, createRoom } = useSocket();
+
+  useEffect(() => {
+    if (chatData) {
+      history.push(`/chat/${chatData.roomId}`);
+    }
+  }, [chatData]);
 
   const joinButtonClick = () => {
     if (roomId) {
@@ -25,7 +37,6 @@ const Welcome = ({ roomId }) => {
         </div>
         <div className="join-heading">
           <h1>Sign in</h1>
-          {/* <span>create new chat room</span> */}
         </div>
         <div className="join-form">
           <input

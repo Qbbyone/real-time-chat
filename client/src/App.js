@@ -1,37 +1,23 @@
 import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
-import { useSocket } from "./hooks/socket.hook";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./styles/App.scss";
 import Chat from "./pages/Chat/Chat";
 import Welcome from "./pages/Welcome/Welcome";
+import { useSocket } from "./hooks/socket.hook";
 
 function App() {
   const [roomId, setRoomId] = useState("");
-  
+
   const { chatData } = useSocket();
-  
+
   return (
     <Router>
       <Switch>
-        <Route
-          path="/"
-          exact
-          render={() => {
-            if (chatData) {
-              const urlChat = `/chat/?roomId=${chatData.roomId}`;
-              return <Redirect to={urlChat} />;
-            }
-            return <Welcome roomId={roomId} />;
-          }}
-        />
-
-        <Route path="/chat">
-          <Chat setRoomId={setRoomId} />
+        <Route exact path="/">
+          <Welcome chatData={chatData} roomId={roomId} />
+        </Route>
+        <Route path="/chat/:roomId">
+          <Chat chatData={chatData} setRoomId={setRoomId} />
         </Route>
       </Switch>
     </Router>

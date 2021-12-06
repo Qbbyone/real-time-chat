@@ -4,8 +4,6 @@ const MessageItem = () => {
   let isAdmin, isCurrentUser
 
 
-
-
   return isAdmin ? (
     <div className="admin-message">
       <p>Text</p>
