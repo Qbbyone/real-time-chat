@@ -4,11 +4,12 @@ import Messanger from "../../components/Messanger/Messanger";
 import TypeInput from "../../components/TypeInput/TypeInput";
 import { useSocket } from "../../hooks/socket.hook";
 import { useHistory } from "react-router-dom";
+import Loading from "../../components/UI/Loading/Loading";
 
 const Chat = (props) => {
   const history = useHistory();
 
-  const chatData = props.chatData
+  const chatData = props.chatData;
   let setRoomId = props.setRoomId;
 
   const { reconnectToRoom } = useSocket();
@@ -16,7 +17,7 @@ const Chat = (props) => {
   useEffect(() => {
     console.log("useEffect in chat", chatData);
     // get roomId from url
-    const url = window.location.href.split('/');
+    const url = window.location.href.split("/");
     if (url.length === 5) {
       setRoomId(url[4]);
     }
@@ -39,8 +40,10 @@ const Chat = (props) => {
       </div>
     </div>
   ) : (
-    <div>Loading...</div>
+    <Loading />
   );
+
+ 
 };
 
 export default Chat;

@@ -1,10 +1,11 @@
 @import "../pages/Welcome/Welcome.scss";
 @import "../pages/Chat/Chat.scss";
-@import "../components/Logo/Logo.scss";
 @import "../components/Header/Header.scss";
 @import "../components/Messanger/Messanger.scss";
 @import "../components/MessageItem/MessageItem.scss";
 @import "../components/TypeInput/TypeInput.scss";
+@import "../components/UI/Logo/Logo.scss";
+@import "../components/UI/Loading/Loading.scss";
 
 $blue_background: rgb(98, 98, 223);
 

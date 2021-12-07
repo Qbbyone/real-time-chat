@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSocket } from "../../hooks/socket.hook";
-import Logo from "../Logo/Logo";
+import Logo from "../UI/Logo/Logo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEllipsisH,
@@ -59,7 +59,7 @@ const Header = ({ chatData }) => {
           </li>
           {/* User logout */}
           <li className="menu-item">
-            <a href='/' className="menu-link" onClick={logoutButtonClick}>
+            <a href="/" className="menu-link" onClick={logoutButtonClick}>
               <FontAwesomeIcon icon={faSignOutAlt} className="fa-icon" />
               Log Out
             </a>

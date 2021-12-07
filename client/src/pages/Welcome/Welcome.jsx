@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Logo from "../../components/Logo/Logo";
+import Logo from "../../components/UI/Logo/Logo";
 import { useSocket } from "../../hooks/socket.hook";
 import { useHistory } from "react-router-dom";
 
 const Welcome = (props) => {
   const roomId = props.roomId;
-  const chatData = props.chatData
-  
+  const chatData = props.chatData;
+
   const [username, setUsername] = useState("");
   const [roomName, setRoomName] = useState("");
 
