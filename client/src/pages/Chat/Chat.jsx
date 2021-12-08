@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header/Header";
 import Messanger from "../../components/Messanger/Messanger";
 import TypeInput from "../../components/TypeInput/TypeInput";
@@ -7,12 +7,12 @@ import { useHistory } from "react-router-dom";
 import Loading from "../../components/UI/Loading/Loading";
 
 const Chat = (props) => {
-  const history = useHistory();
-
   const chatData = props.chatData;
   let setRoomId = props.setRoomId;
 
-  const { reconnectToRoom } = useSocket();
+  const history = useHistory();
+
+  const { reconnectToRoom, sendMessage } = useSocket();
 
   useEffect(() => {
     console.log("useEffect in chat", chatData);
@@ -34,16 +34,14 @@ const Chat = (props) => {
   return chatData ? (
     <div className="chat">
       <div className="chat-container">
-        <Header chatData={chatData} setChatData={props.setChatData} />
-        <Messanger chatData={chatData} />
-        <TypeInput />
+        <Header chatData={chatData} />
+        <Messanger messages={chatData.messages} />
+        <TypeInput chatData={chatData} sendMessage={sendMessage} />
       </div>
     </div>
   ) : (
     <Loading />
   );
-
- 
 };
 
 export default Chat;

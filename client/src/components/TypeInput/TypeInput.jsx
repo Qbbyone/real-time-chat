@@ -1,21 +1,34 @@
-import React from 'react';
+import React, { useState } from "react";
 import SentimentSatisfiedOutlinedIcon from "@material-ui/icons/SentimentSatisfiedOutlined";
 
-const TypeInput = () => {
+const TypeInput = (props) => {
+  const chatData = props.chatData;
+  const sendMessage = props.sendMessage;
+
+  const [messageBody, setMessageBody] = useState("");
+
+  const sendMessageButtonClick = () => {
+    sendMessage(messageBody, chatData.roomId);
+    setMessageBody('')
+  };
+
   return (
     <div className="type-form">
-      <button className="smile-btn"><SentimentSatisfiedOutlinedIcon fontSize="large"/></button>
+      <button className="smile-btn">
+        <SentimentSatisfiedOutlinedIcon fontSize="large" />
+      </button>
       <input
         className="type-input"
         autoComplete="off"
         type="text"
         placeholder="Type a message..."
-        id="type-input"
-        /* value={message}
-        onChange={event => setMessage(event.target.value)}
-        onKeyPress={event => event.key==='Enter' ? sendMessage(event) : null} */
+        value={messageBody}
+        onChange={(event) => setMessageBody(event.target.value)}
+        onKeyPress={event => event.key==='Enter' ? sendMessageButtonClick() : null}  
       />
-      <button className="type-form-button">Send</button>
+      <button className="type-form-button" onClick={sendMessageButtonClick}>
+        Send
+      </button>
     </div>
   );
 };

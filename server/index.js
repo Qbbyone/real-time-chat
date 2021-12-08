@@ -4,6 +4,7 @@ const cors = require("cors");
 const { nanoid } = require("nanoid");
 
 const { Server } = require("socket.io");
+const { send } = require("process");
 
 const app = express();
 
@@ -22,18 +23,49 @@ const io = new Server(server, {
 
 const chatRoomsData = new Map();
 
-sendChatData = (socket, roomId) => {
-  console.log(roomId);
-  socket.emit("chatData", {
+sendChatData = (address, roomId) => {
+  console.log("roomId in sendChatData", roomId);
+  address.emit("chatData", createChatData(roomId));
+};
+
+createChatData = (roomId) => {
+  const chatData = {
     roomId,
     roomName: chatRoomsData.get(roomId).get("roomName"),
     usernames: [...chatRoomsData.get(roomId).get("users").values()],
     messages: [...chatRoomsData.get(roomId).get("messages")],
-  });
+  };
+
+  return chatData;
+};
+
+createUserMessage = (roomId, userId, messageBody) => {
+  const message = {
+    userName: chatRoomsData.get(roomId).get("users").get(userId),
+    userId,
+    date: new Date()
+      .toTimeString()
+      .split(" ")[0]
+      .split(":")
+      .slice(0, -1)
+      .join(":"), // hh:mm format
+    messageBody,
+  };
+
+  return message;
+};
+
+createAdminMessage = (userId, messageBody) => {
+  const message = {
+    userId,
+    messageBody,
+  };
+
+  return message;
 };
 
 io.on("connection", (socket) => {
-  console.log("connection--------------", Date.now());
+  console.log("connection--------------");
 
   socket.on("createRoom", ({ username, roomName }) => {
     const roomId = nanoid(10);
@@ -44,16 +76,18 @@ io.on("connection", (socket) => {
       new Map([
         ["users", new Map()],
         ["messages", []],
+        ["roomName", roomName],
       ])
     );
-
-    chatRoomsData.get(roomId).set("roomName", roomName);
     chatRoomsData.get(roomId).get("users").set(userId, username);
-    chatRoomsData.get(roomId).set("messages", []);
 
     socket.join(roomId);
     socket.emit("userId", userId);
-    sendChatData(socket, roomId);
+
+    const message = createAdminMessage("admin0", `You joined the room`);
+    chatRoomsData.get(roomId).get("messages").push(message);
+
+    sendChatData(io, roomId);
   });
 
   socket.on("joinRoom", ({ username, roomId }) => {
@@ -62,7 +96,14 @@ io.on("connection", (socket) => {
       const userId = nanoid(8);
       chatRoomsData.get(roomId).get("users").set(userId, username);
       socket.emit("userId", userId);
-      sendChatData(socket, roomId);
+      const currentUser = chatRoomsData.get(roomId).get("users").get(userId);
+
+      const message = createAdminMessage(
+        "admin0",
+        `User ${currentUser} joined the room`
+      );
+      chatRoomsData.get(roomId).get("messages").push(message);
+      sendChatData(io, roomId);
     } else {
       console.log("room is not found");
     }
@@ -70,9 +111,6 @@ io.on("connection", (socket) => {
 
   socket.on("reconnect", (userId) => {
     chatRoomsData.forEach((value, key) => {
-      console.log("value", value);
-      console.log("value.get", value.get("users").has(userId));
-
       if (value.get("users").has(userId)) {
         socket.join(key);
         sendChatData(socket, key);
@@ -84,24 +122,23 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sendMessage", ({ messageBody, roomId, userId }) => {
-    const message = {
-      userName: chatRooms.get(roomId).get("users").get(userId),
-      date: new Date().toTimeString().split(" ")[0], // hh:mm format
-      messageBody,
-    };
-
+    const message = createUserMessage(roomId, userId, messageBody);
     chatRoomsData.get(roomId).get("messages").push(message);
-
-    io.in(roomId).emit("newMessage", { message });
+    sendChatData(io, roomId);
   });
 
   socket.on("disconnectUser", ({ userId, roomId }) => {
     socket.leave(roomId);
-    socket.broadcast
-      .to(roomId)
-      .emit("userDisconnect", chatRoomsData.get(roomId).get("users").get(userId));
-
+    const currentUser = chatRoomsData.get(roomId).get("users").get(userId);
     chatRoomsData.get(roomId).get("users").delete(userId);
+
+    const message = createAdminMessage(
+      "admin0",
+      `User ${currentUser} left the room`
+    );
+
+    chatRoomsData.get(roomId).get("messages").push(message);
+    sendChatData(socket.broadcast, roomId);
   });
 });
 

@@ -10,19 +10,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Header = ({ chatData }) => {
-  const [usernames, setUsernames] = useState(chatData.usernames);
+  const { disconnectUser } = useSocket();
 
-  const { disconnectUser, userLeft } = useSocket();
-
-  let usersInRoom = usernames.length;
-
-  useEffect(() => {
-    if (userLeft) {
-      setUsernames((users) => users.splice(users.indexOf(userLeft), 1));
-    }
-  }, [userLeft]);
-
-  // error redirect to chat
   const logoutButtonClick = () => {
     disconnectUser(sessionStorage.getItem("userId"), chatData.roomId);
   };
@@ -35,7 +24,8 @@ const Header = ({ chatData }) => {
       <div className="header-room-info">
         <div className="room-name">Room: {chatData.roomName}</div>
         <div className="room-members">
-          {usersInRoom} {usersInRoom > 1 ? "members" : "member"}
+          {chatData.usernames.length}{" "}
+          {chatData.usernames.length > 1 ? "members" : "member"}
         </div>
       </div>
       <div className="header-dropdown">

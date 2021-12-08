@@ -5,8 +5,6 @@ let socket = io("http://localhost:3001");
 
 export const useSocket = () => {
   const [chatData, setChatData] = useState(null);
-  const [newMessage, setNewMessage] = useState("");
-  const [userLeft, setUserLeft] = useState("");
 
   useEffect(() => {
     //socket.on("connect", () => console.log("connect"))
@@ -17,10 +15,6 @@ export const useSocket = () => {
       console.log("currentUserId in hook", userId);
       sessionStorage.setItem("userId", userId);
     });
-
-    socket.on("newMessage", ({ message }) => setNewMessage(message));
-
-    socket.on("userDisconnect", (username) => setUserLeft(username));
   }, []);
 
   const joinRoom = (username, roomId) => {
@@ -44,11 +38,6 @@ export const useSocket = () => {
     socket.emit("disconnectUser", { userId, roomId });
   };
 
-  const clearChatData = () => {
-    console.log("clearChatData");
-    setChatData(null)
-  }
-
   return {
     chatData,
     joinRoom,
@@ -56,7 +45,5 @@ export const useSocket = () => {
     reconnectToRoom,
     sendMessage,
     disconnectUser,
-    userLeft,
-    clearChatData
   };
 };
